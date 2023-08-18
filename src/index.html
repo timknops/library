@@ -7,22 +7,22 @@
     <script type="module" src="./script.js" defer></script>
     <title>Library</title>
   </head>
-  <body class="bg-neutral-200">
-    <nav class="bg-white h-14"></nav>
-
-    <div class="flex flex-col w-screen items-center px-96 mt-24">
+  <body class="bg-gray-100 h-full">
+    <div
+      class="flex flex-col w-screen items-center 2xl:px-96 xl:px-60 lg:px-44 px-28 mt-40"
+    >
       <h3 class="text-5xl font-bold self-start text-gray-900">My Library</h3>
       <div
         class="info-bar bg-white flex justify-between w-full rounded-lg m-3 p-3 mb-8"
       >
-        <div class="books-info flex gap-3 items-center">
-          <p class="text-lg text-gray-900">
+        <div class="books-info flex gap-10 items-center">
+          <p class="text-gray-900">
             Current books: <span class="font-bold text-violet-500">1</span>
           </p>
-          <p class="text-lg text-gray-900">
+          <p class="text-gray-900">
             Read books: <span class="font-bold text-violet-500">3</span>
           </p>
-          <p class="text-lg text-gray-900">
+          <p class="text-gray-900">
             Total pages read:
             <span class="font-bold text-violet-500">34123</span>
           </p>
@@ -34,27 +34,57 @@
         </button>
       </div>
 
-      <table class="table-fixed w-full bg-white rounded-lg">
-        <thead>
-          <tr>
-            <th scope="col">Author</th>
-            <th scope="col">Title</th>
-            <th scope="col">Pages</th>
-            <th scope="col">Read</th>
-            <th scope="col" class="px-6 py-3">
-              <span class="sr-only">Edit</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Peter Jan</td>
-            <td>Hoe is het leven?</td>
-            <td>237</td>
-            <td>X</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="rounded-lg relative overflow-x-scroll w-full shadow-md">
+        <table class="w-full bg-white text-left text-gray-500">
+          <thead class="text-gray-700 text-sm uppercase bg-gray-200">
+            <tr>
+              <th scope="col" class="px-6 py-3">Author</th>
+              <th scope="col" class="px-6 py-3">Title</th>
+              <th scope="col" class="px-6 py-3">Pages</th>
+              <th scope="col" class="px-6 py-3">Read</th>
+              <th scope="col" class="px-6 py-3">
+                <span class="sr-only">Edit</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="bg-white border-b hover:bg-gray-50">
+              <td class="px-6 py-4 font-medium text-gray-900">
+                Peter JanHoe is het leve
+              </td>
+              <td class="px-6 py-4">Hoe is het leven? Hoe is het</td>
+              <td class="px-6 py-4">237</td>
+              <td class="px-6 py-4">
+                <button
+                  class="border-green-700 border text-green-700 font-medium p-2 rounded-lg hover:bg-green-50 active:bg-green-100 transition-colors w-24"
+                >
+                  Read
+                </button>
+              </td>
+              <td class="px-6 py-4 text-right font-medium text-violet-500">
+                <span class="cursor-pointer hover:underline">Remove</span>
+              </td>
+            </tr>
+            <tr class="bg-white hover:bg-gray-50">
+              <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                Peter Jan
+              </td>
+              <td class="px-6 py-4">Hoe is het leven?</td>
+              <td class="px-6 py-4">237</td>
+              <td class="px-6 py-4">
+                <button
+                  class="border-red-700 border text-red-700 font-medium p-2 rounded-lg hover:bg-red-50 active:bg-red-100 transition-colors w-24"
+                >
+                  Not read
+                </button>
+              </td>
+              <td class="px-6 py-4 text-right font-medium text-violet-500">
+                <span class="cursor-pointer hover:underline">Remove</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </body>
 </html>
