@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../dist/output.css" />
-    <script type="module" src="./script.js" defer></script>
+    <script type="module" src="./js/script.js" defer></script>
     <title>Library</title>
   </head>
   <body class="bg-gray-100 h-full">
@@ -48,7 +48,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="bg-white border-b hover:bg-gray-50">
+            <!-- <tr class="bg-white border-b hover:bg-gray-50">
               <td class="px-6 py-4 font-medium text-gray-900">
                 Peter JanHoe is het leve
               </td>
@@ -81,10 +81,26 @@
               <td class="px-6 py-4 text-right font-medium text-violet-500">
                 <span class="cursor-pointer hover:underline">Remove</span>
               </td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
       </div>
     </div>
   </body>
 </html>
+
+<template id="book">
+  <tr class="bg-white border-b hover:bg-gray-50">
+    <td class="book-author px-6 py-4 font-medium text-gray-900"></td>
+    <td class="book-title px-6 py-4"></td>
+    <td class="book-pages px-6 py-4"></td>
+    <td class="px-6 py-4">
+      <button
+        class="read-button border font-medium p-2 rounded-lg transition-colors w-24"
+      ></button>
+    </td>
+    <td class="px-6 py-4 text-right font-medium text-violet-500">
+      <span class="cursor-pointer hover:underline">Remove</span>
+    </td>
+  </tr>
+</template>
