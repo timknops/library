@@ -1,5 +1,7 @@
 const library = [];
 
+const table = document.querySelector("tbody");
+
 function Book(author, title, totalPages, read) {
   this.author = author;
   this.title = title;
@@ -12,8 +14,6 @@ function addBook(author, title, totalPages, read) {
 }
 
 function displayBooks() {
-  const table = document.querySelector("tbody");
-
   for (let i = 0; i < library.length; i++) {
     const bookTemplate = document.querySelector("#book");
     const bookTemplateClone = bookTemplate.content.cloneNode(true);
@@ -22,6 +22,7 @@ function displayBooks() {
     td[0].textContent = library[i].author;
     td[1].textContent = library[i].title;
     td[2].textContent = library[i].totalPages;
+    bookTemplateClone.firstElementChild.id = library[i].id;
 
     const button = bookTemplateClone.querySelector("button");
     if (library[i].read) {
@@ -87,19 +88,56 @@ function updateButtonStatus(button) {
 }
 
 function updateReadStatus(tableRow) {
-  console.log(tableRow);
-
-  // TODO: Update read status in the library.
+  const book = library.find((book) => book.id === parseInt(tableRow.id));
+  book.read = book.read ? false : true;
 }
 
-addBook("Peter Jan", "Het goede leven", 118, false);
+function addIdToBooks() {
+  library.forEach((book, i) => {
+    book.id = i + 1;
+  });
+}
+
+function updateLibraryInfo() {
+  const currentBooks = document.querySelector(".current-books");
+  const readBooks = document.querySelector(".read-books");
+  const totalReadPages = document.querySelector(".total-pages-read");
+
+  currentBooks.textContent = library.length;
+
+  let booksRead = 0,
+    totalPages = 0;
+  for (let i = 0; i < library.length; i++) {
+    if (library[i].read) {
+      booksRead++;
+      totalPages += library[i].totalPages;
+    }
+  }
+
+  readBooks.textContent = booksRead;
+  totalReadPages.textContent = totalPages;
+}
+
+// Should come from db ideally.
+addBook("Peter Jan", "Het goede leven", 118, true);
 addBook("Hennie", "Het leven", 1138, true);
 addBook("Joost", "goede leven", 354, false);
+
+addIdToBooks();
 displayBooks();
+updateLibraryInfo();
 
 document.querySelectorAll(".read-button").forEach((e) => {
-  e.addEventListener("click", (clickedButton) => {
-    updateButtonStatus(clickedButton.target);
-    updateReadStatus(clickedButton.target.parentNode.parentNode);
+  e.addEventListener("click", (clickedReadButton) => {
+    updateButtonStatus(clickedReadButton.target);
+    updateReadStatus(clickedReadButton.target.parentNode.parentNode);
+    updateLibraryInfo();
+  });
+});
+
+document.querySelectorAll(".remove-book").forEach((e) => {
+  e.addEventListener("click", (clickedRemoveButton) => {
+    clickedRemoveButton.target.parentNode.parentNode.remove();
+    table.lastElementChild.classList.remove("border-b");
   });
 });

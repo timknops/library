@@ -17,14 +17,16 @@
       >
         <div class="books-info flex gap-10 items-center">
           <p class="text-gray-900">
-            Current books: <span class="font-bold text-violet-500">1</span>
+            Current books:
+            <span class="current-books font-bold text-violet-500">0</span>
           </p>
           <p class="text-gray-900">
-            Read books: <span class="font-bold text-violet-500">3</span>
+            Read books:
+            <span class="read-books font-bold text-violet-500">0</span>
           </p>
           <p class="text-gray-900">
             Total pages read:
-            <span class="font-bold text-violet-500">34123</span>
+            <span class="total-pages-read font-bold text-violet-500">0</span>
           </p>
         </div>
         <button
@@ -90,7 +92,7 @@
 </html>
 
 <template id="book">
-  <tr class="bg-white border-b hover:bg-gray-50">
+  <tr class="bg-white border-b hover:bg-gray-50" id="">
     <td class="book-author px-6 py-4 font-medium text-gray-900"></td>
     <td class="book-title px-6 py-4"></td>
     <td class="book-pages px-6 py-4"></td>
@@ -100,7 +102,7 @@
       ></button>
     </td>
     <td class="px-6 py-4 text-right font-medium text-violet-500">
-      <span class="cursor-pointer hover:underline">Remove</span>
+      <span class="remove-book cursor-pointer hover:underline">Remove</span>
     </td>
   </tr>
 </template>
