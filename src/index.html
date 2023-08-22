@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../dist/output.css" />
-    <script type="module" src="./js/script.js" defer></script>
+    <script type="module" src="./js/library.js" defer></script>
     <title>Library</title>
   </head>
   <body class="bg-gray-100 h-full">
@@ -30,7 +30,10 @@
           </p>
         </div>
         <button
-          class="bg-violet-500 text-white p-2 rounded-lg font-medium hover:bg-violet-600 active:bg-violet-700 transition-colors"
+          data-modal-target="#new-book-modal"
+          data-modal-toggle="#new-book-modal"
+          class="bg-violet-500 text-white p-2 rounded-lg font-medium hover:bg-violet-600 active:bg-violet-700"
+          type="button"
         >
           + New Book
         </button>
@@ -49,42 +52,7 @@
               </th>
             </tr>
           </thead>
-          <tbody>
-            <!-- <tr class="bg-white border-b hover:bg-gray-50">
-              <td class="px-6 py-4 font-medium text-gray-900">
-                Peter JanHoe is het leve
-              </td>
-              <td class="px-6 py-4">Hoe is het leven? Hoe is het</td>
-              <td class="px-6 py-4">237</td>
-              <td class="px-6 py-4">
-                <button
-                  class="border-green-700 border text-green-700 font-medium p-2 rounded-lg hover:bg-green-50 active:bg-green-100 transition-colors w-24"
-                >
-                  Read
-                </button>
-              </td>
-              <td class="px-6 py-4 text-right font-medium text-violet-500">
-                <span class="cursor-pointer hover:underline">Remove</span>
-              </td>
-            </tr>
-            <tr class="bg-white hover:bg-gray-50">
-              <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                Peter Jan
-              </td>
-              <td class="px-6 py-4">Hoe is het leven?</td>
-              <td class="px-6 py-4">237</td>
-              <td class="px-6 py-4">
-                <button
-                  class="border-red-700 border text-red-700 font-medium p-2 rounded-lg hover:bg-red-50 active:bg-red-100 transition-colors w-24"
-                >
-                  Not read
-                </button>
-              </td>
-              <td class="px-6 py-4 text-right font-medium text-violet-500">
-                <span class="cursor-pointer hover:underline">Remove</span>
-              </td>
-            </tr> -->
-          </tbody>
+          <tbody></tbody>
         </table>
       </div>
     </div>
@@ -92,13 +60,13 @@
 </html>
 
 <template id="book">
-  <tr class="bg-white border-b hover:bg-gray-50" id="">
+  <tr class="book-row bg-white border-b hover:bg-gray-50" id="">
     <td class="book-author px-6 py-4 font-medium text-gray-900"></td>
     <td class="book-title px-6 py-4"></td>
     <td class="book-pages px-6 py-4"></td>
     <td class="px-6 py-4">
       <button
-        class="read-button border font-medium p-2 rounded-lg transition-colors w-24"
+        class="read-button border font-medium p-2 rounded-lg w-24"
       ></button>
     </td>
     <td class="px-6 py-4 text-right font-medium text-violet-500">
@@ -106,3 +74,9 @@
     </td>
   </tr>
 </template>
+
+<div
+  id="new-book-modal"
+  aria-hidden="true"
+  class="w-5 h-5 bg-red-500 hidden"
+></div>

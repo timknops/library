@@ -93,8 +93,14 @@ function updateReadStatus(tableRow) {
 }
 
 function addIdToBooks() {
+  const bookRow = document.querySelectorAll(".book-row");
+
   library.forEach((book, i) => {
     book.id = i + 1;
+  });
+
+  bookRow.forEach((e, i) => {
+    e.id = i + 1;
   });
 }
 
@@ -139,5 +145,8 @@ document.querySelectorAll(".remove-book").forEach((e) => {
   e.addEventListener("click", (clickedRemoveButton) => {
     clickedRemoveButton.target.parentNode.parentNode.remove();
     table.lastElementChild.classList.remove("border-b");
+    library.splice(clickedRemoveButton.target.parentNode.parentNode.id - 1, 1);
+    updateLibraryInfo();
+    addIdToBooks();
   });
 });
