@@ -124,6 +124,32 @@ function updateLibraryInfo() {
   totalReadPages.textContent = totalPages;
 }
 
+function handleModal() {
+  const button = document.querySelector(".new-book-btn");
+  const closemodal = document.querySelectorAll(".modal-close");
+  const overlay = document.querySelector(".modal-overlay");
+
+  button.addEventListener("click", (event) => {
+    event.preventDefault();
+    toggleModal();
+  });
+
+  closemodal.forEach((e) => {
+    e.addEventListener("click", () => {
+      toggleModal();
+    });
+  });
+
+  overlay.addEventListener("click", toggleModal);
+}
+
+function toggleModal() {
+  const body = document.querySelector("body");
+  const modal = document.querySelector(".modal");
+  modal.classList.toggle("opacity-0");
+  modal.classList.toggle("pointer-events-none");
+  body.classList.toggle("modal-active");
+}
 // Should come from db ideally.
 addBook("Peter Jan", "Het goede leven", 118, true);
 addBook("Hennie", "Het leven", 1138, true);
@@ -150,3 +176,5 @@ document.querySelectorAll(".remove-book").forEach((e) => {
     addIdToBooks();
   });
 });
+
+handleModal();
