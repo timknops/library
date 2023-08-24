@@ -108,7 +108,7 @@
           </svg>
         </div>
       </div>
-      <form action="">
+      <form id="new-book-form">
         <div class="mb-3">
           <label
             for="author"
@@ -119,7 +119,7 @@
             type="text"
             id="author"
             name="author"
-            class="bg-gray-100 text-gray-900 text-sm rounded-md w-full p-2 block"
+            class="bg-gray-100 text-sm rounded-md w-full p-2 block"
             placeholder="Author"
             required
           />
@@ -134,7 +134,7 @@
             type="text"
             id="title"
             name="title"
-            class="bg-gray-100 text-gray-900 text-sm rounded-md w-full p-2 block"
+            class="bg-gray-100 text-sm rounded-md w-full p-2 block"
             placeholder="Title"
             required
           />
@@ -149,7 +149,7 @@
             type="number"
             id="pages"
             name="pages"
-            class="bg-gray-100 text-gray-900 text-sm rounded-md w-full p-2 block"
+            class="bg-gray-100 text-sm rounded-md w-full p-2 block"
             placeholder="0"
             required
           />
@@ -160,7 +160,6 @@
             id="read"
             name="read"
             class="w-4 h-4 mr-2 accent-violet-500"
-            required
           />
           <label for="read" class="text-sm font-medium text-gray-900"
             >Have you read it?</label
@@ -169,7 +168,9 @@
       </form>
       <div class="flex justify-end pt-2">
         <button
-          class="bg-violet-500 text-white p-2 rounded-lg font-medium hover:bg-violet-600 active:bg-violet-700"
+          class="add-new-book bg-violet-500 text-white p-2 rounded-lg font-medium hover:bg-violet-600 active:bg-violet-700"
+          type="submit"
+          form="new-book-form"
         >
           Add Book
         </button>

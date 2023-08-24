@@ -152,6 +152,54 @@ function toggleModal() {
   body.classList.toggle("modal-active");
 }
 
+function addNewBook() {
+  const form = document.querySelector("form");
+  const authorInput = document.querySelector("#author");
+  const titleInput = document.querySelector("#title");
+  const pagesInput = document.querySelector("#pages");
+  const readCheckbox = document.querySelector("#read");
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (
+      validateNewBook({
+        author: authorInput.value,
+        title: titleInput.value,
+        pages: pagesInput.value,
+        hasRead: readCheckbox.checked,
+      })
+    ) {
+      addBook(
+        authorInput.value,
+        titleInput.value,
+        pagesInput.value,
+        readCheckbox.checked
+      );
+      addIdToBooks();
+      updateLibraryInfo();
+
+      const currentDisplayedBooks = document.querySelectorAll(".book-row");
+      document.querySelectorAll(".book-row").forEach((book) => {
+        book.remove();
+      });
+
+      displayBooks();
+    } else {
+      console.log("INVALID");
+    }
+  });
+}
+
+function validateNewBook(inputFieldsObj) {
+  const authorRegex = /^[A-Za-z \.]{3,30}$/gm;
+  const titleRegex = /^[A-Za-z \.]{3,50}$/gm;
+
+  return (
+    authorRegex.test(inputFieldsObj.author) &&
+    titleRegex.test(inputFieldsObj.title)
+  );
+}
+
 // Should come from db ideally.
 addBook("Peter Jan", "Het goede leven", 118, true);
 addBook("Hennie", "Het leven", 1138, true);
@@ -180,3 +228,4 @@ document.querySelectorAll(".remove-book").forEach((e) => {
 });
 
 handleModal();
+addNewBook();
