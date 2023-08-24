@@ -13,42 +13,49 @@ function addBook(author, title, totalPages, read) {
   library.push(new Book(author, title, totalPages, read));
 }
 
-function displayBooks() {
+function displayAllBooks() {
   for (let i = 0; i < library.length; i++) {
-    const bookTemplate = document.querySelector("#book");
-    const bookTemplateClone = bookTemplate.content.cloneNode(true);
-
-    const td = bookTemplateClone.querySelectorAll("td");
-    td[0].textContent = library[i].author;
-    td[1].textContent = library[i].title;
-    td[2].textContent = library[i].totalPages;
-    bookTemplateClone.firstElementChild.id = library[i].id;
-
-    const button = bookTemplateClone.querySelector("button");
-    if (library[i].read) {
-      button.classList.add(
-        "border-green-700",
-        "text-green-700",
-        "hover:bg-green-50",
-        "active:bg-green-100"
-      );
-
-      button.textContent = "Read";
-    } else {
-      button.classList.add(
-        "border-red-700",
-        "text-red-700",
-        "hover:bg-red-50",
-        "active:bg-red-100"
-      );
-
-      button.textContent = "Not Read";
-    }
-
-    table.appendChild(bookTemplateClone);
+    displayBook(library[i]);
   }
 
+  handleReadButton();
+  handleRemoveButton();
+
   table.lastElementChild.classList.remove("border-b");
+}
+
+function displayBook(book) {
+  const bookTemplate = document.querySelector("#book");
+  const bookTemplateClone = bookTemplate.content.cloneNode(true);
+
+  const td = bookTemplateClone.querySelectorAll("td");
+  td[0].textContent = book.author;
+  td[1].textContent = book.title;
+  td[2].textContent = book.totalPages;
+  bookTemplateClone.firstElementChild.id = book.id;
+
+  const button = bookTemplateClone.querySelector("button");
+  if (book.read) {
+    button.classList.add(
+      "border-green-700",
+      "text-green-700",
+      "hover:bg-green-50",
+      "active:bg-green-100"
+    );
+
+    button.textContent = "Read";
+  } else {
+    button.classList.add(
+      "border-red-700",
+      "text-red-700",
+      "hover:bg-red-50",
+      "active:bg-red-100"
+    );
+
+    button.textContent = "Not Read";
+  }
+
+  table.appendChild(bookTemplateClone);
 }
 
 function updateButtonStatus(button) {
@@ -152,52 +159,71 @@ function toggleModal() {
   body.classList.toggle("modal-active");
 }
 
-function addNewBook() {
+function handleNewBookButton() {
   const form = document.querySelector("form");
   const authorInput = document.querySelector("#author");
   const titleInput = document.querySelector("#title");
   const pagesInput = document.querySelector("#pages");
   const readCheckbox = document.querySelector("#read");
 
+  const bookToBeAdded = {
+    author: authorInput.value,
+    title: titleInput.value,
+    pages: parseInt(pagesInput.value),
+    hasRead: readCheckbox.checked,
+  };
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    if (
-      validateNewBook({
-        author: authorInput.value,
-        title: titleInput.value,
-        pages: pagesInput.value,
-        hasRead: readCheckbox.checked,
-      })
-    ) {
+
+    if (validateNewBook(bookToBeAdded)) {
       addBook(
-        authorInput.value,
-        titleInput.value,
-        pagesInput.value,
-        readCheckbox.checked
+        bookToBeAdded.author,
+        bookToBeAdded.title,
+        bookToBeAdded.pages,
+        bookToBeAdded.hasRead
       );
       addIdToBooks();
       updateLibraryInfo();
-
-      const currentDisplayedBooks = document.querySelectorAll(".book-row");
-      document.querySelectorAll(".book-row").forEach((book) => {
-        book.remove();
-      });
-
-      displayBooks();
+      displayBook(library[library.length - 1]);
     } else {
       console.log("INVALID");
     }
   });
 }
 
-function validateNewBook(inputFieldsObj) {
+function validateNewBook(inputFields) {
   const authorRegex = /^[A-Za-z \.]{3,30}$/gm;
   const titleRegex = /^[A-Za-z \.]{3,50}$/gm;
 
   return (
-    authorRegex.test(inputFieldsObj.author) &&
-    titleRegex.test(inputFieldsObj.title)
+    authorRegex.test(inputFields.author) && titleRegex.test(inputFields.title)
   );
+}
+
+function handleReadButton() {
+  document.querySelectorAll(".read-button").forEach((e) => {
+    e.addEventListener("click", (clickedReadButton) => {
+      updateButtonStatus(clickedReadButton.target);
+      updateReadStatus(clickedReadButton.target.parentNode.parentNode);
+      updateLibraryInfo();
+    });
+  });
+}
+
+function handleRemoveButton() {
+  document.querySelectorAll(".remove-book").forEach((e) => {
+    e.addEventListener("click", (clickedRemoveButton) => {
+      clickedRemoveButton.target.parentNode.parentNode.remove();
+      table.lastElementChild.classList.remove("border-b");
+      library.splice(
+        clickedRemoveButton.target.parentNode.parentNode.id - 1,
+        1
+      );
+      updateLibraryInfo();
+      addIdToBooks();
+    });
+  });
 }
 
 // Should come from db ideally.
@@ -206,26 +232,7 @@ addBook("Hennie", "Het leven", 1138, true);
 addBook("Joost", "goede leven", 354, false);
 
 addIdToBooks();
-displayBooks();
+displayAllBooks();
 updateLibraryInfo();
-
-document.querySelectorAll(".read-button").forEach((e) => {
-  e.addEventListener("click", (clickedReadButton) => {
-    updateButtonStatus(clickedReadButton.target);
-    updateReadStatus(clickedReadButton.target.parentNode.parentNode);
-    updateLibraryInfo();
-  });
-});
-
-document.querySelectorAll(".remove-book").forEach((e) => {
-  e.addEventListener("click", (clickedRemoveButton) => {
-    clickedRemoveButton.target.parentNode.parentNode.remove();
-    table.lastElementChild.classList.remove("border-b");
-    library.splice(clickedRemoveButton.target.parentNode.parentNode.id - 1, 1);
-    updateLibraryInfo();
-    addIdToBooks();
-  });
-});
-
 handleModal();
-addNewBook();
+handleNewBookButton();
