@@ -22,7 +22,9 @@ function displayAllBooks() {
   handleReadButton(document.querySelectorAll(".read-button"));
   handleRemoveButton(document.querySelectorAll(".remove-book"));
 
-  table.lastElementChild.classList.remove("border-b");
+  if (table.lastElementChild != null) {
+    table.lastElementChild.classList.remove("border-b");
+  }
 }
 
 function displayBook(book) {
@@ -189,14 +191,15 @@ function handleNewBookButton() {
 
       addIdToBooks();
       updateLibraryInfo();
-      table.lastElementChild.classList.add("border-b");
       displayBook(library[library.length - 1]);
+      table.lastElementChild.classList.add("border-b");
 
       const readButton = document.querySelectorAll(".read-button");
       const removeButton = document.querySelectorAll(".remove-book");
 
       handleReadButton([readButton[readButton.length - 1]]);
       handleRemoveButton([removeButton[removeButton.length - 1]]);
+      saveToLocalStorage(library);
 
       toggleModal();
     } else {
@@ -275,6 +278,7 @@ function handleReadButton(readButtonsArr) {
       updateButtonStatus(clickedReadButton.target);
       updateReadStatus(clickedReadButton.target.parentNode.parentNode);
       updateLibraryInfo();
+      saveToLocalStorage(library);
     });
   });
 }
@@ -283,7 +287,10 @@ function handleRemoveButton(remveButtonsArr) {
   remveButtonsArr.forEach((removeButton) => {
     removeButton.addEventListener("click", (clickedRemoveButton) => {
       clickedRemoveButton.target.parentNode.parentNode.remove();
-      table.lastElementChild.classList.remove("border-b");
+      if (table.lastElementChild !== null) {
+        table.lastElementChild.classList.remove("border-b");
+      }
+
       library.splice(
         clickedRemoveButton.target.parentNode.parentNode.id - 1,
         1
@@ -291,17 +298,25 @@ function handleRemoveButton(remveButtonsArr) {
 
       updateLibraryInfo();
       addIdToBooks();
+      saveToLocalStorage(library);
     });
   });
 }
 
-// Should come from db ideally.
-addBook("Peter Jan", "Het goede leven", 118, true);
-addBook("Hennie", "Het leven", 1138, true);
-addBook("Joost", "goede leven", 354, false);
+function saveToLocalStorage(libraryToBeSaved) {
+  localStorage.setItem("library", JSON.stringify(libraryToBeSaved));
+}
 
-addIdToBooks();
-displayAllBooks();
-updateLibraryInfo();
+const booksFromLocalStorage = localStorage.getItem("library");
+if (booksFromLocalStorage != null) {
+  JSON.parse(booksFromLocalStorage).forEach((book) => {
+    addBook(book.author, book.title, book.totalPages, book.read);
+  });
+
+  addIdToBooks();
+  displayAllBooks();
+  updateLibraryInfo();
+}
+
 handleModal();
 handleNewBookButton();
