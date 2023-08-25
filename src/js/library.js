@@ -1,6 +1,7 @@
 const library = [];
 
 const table = document.querySelector("tbody");
+const form = document.querySelector("form");
 
 function Book(author, title, totalPages, read) {
   this.author = author;
@@ -18,8 +19,8 @@ function displayAllBooks() {
     displayBook(library[i]);
   }
 
-  handleReadButton();
-  handleRemoveButton();
+  handleReadButton(document.querySelectorAll(".read-button"));
+  handleRemoveButton(document.querySelectorAll(".remove-book"));
 
   table.lastElementChild.classList.remove("border-b");
 }
@@ -137,6 +138,7 @@ function handleModal() {
   const overlay = document.querySelector(".modal-overlay");
 
   button.addEventListener("click", (e) => {
+    form.reset();
     e.preventDefault();
     toggleModal();
   });
@@ -160,21 +162,20 @@ function toggleModal() {
 }
 
 function handleNewBookButton() {
-  const form = document.querySelector("form");
   const authorInput = document.querySelector("#author");
   const titleInput = document.querySelector("#title");
   const pagesInput = document.querySelector("#pages");
   const readCheckbox = document.querySelector("#read");
 
-  const bookToBeAdded = {
-    author: authorInput.value,
-    title: titleInput.value,
-    pages: parseInt(pagesInput.value),
-    hasRead: readCheckbox.checked,
-  };
-
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+
+    const bookToBeAdded = {
+      author: authorInput.value,
+      title: titleInput.value,
+      pages: parseInt(pagesInput.value),
+      hasRead: readCheckbox.checked,
+    };
 
     if (validateNewBook(bookToBeAdded)) {
       addBook(
@@ -183,11 +184,23 @@ function handleNewBookButton() {
         bookToBeAdded.pages,
         bookToBeAdded.hasRead
       );
+
       addIdToBooks();
       updateLibraryInfo();
+      table.lastElementChild.classList.add("border-b");
       displayBook(library[library.length - 1]);
+
+      const readButton = document.querySelectorAll(".read-button");
+      const removeButton = document.querySelectorAll(".remove-book");
+
+      console.log(readButton[readButton.length - 1]);
+
+      handleReadButton([readButton[readButton.length - 1]]);
+      handleRemoveButton([removeButton[removeButton.length - 1]]);
+
+      toggleModal();
     } else {
-      console.log("INVALID");
+      console.log("INVALID", bookToBeAdded);
     }
   });
 }
@@ -201,9 +214,9 @@ function validateNewBook(inputFields) {
   );
 }
 
-function handleReadButton() {
-  document.querySelectorAll(".read-button").forEach((e) => {
-    e.addEventListener("click", (clickedReadButton) => {
+function handleReadButton(readButtonsArr) {
+  readButtonsArr.forEach((readButton) => {
+    readButton.addEventListener("click", (clickedReadButton) => {
       updateButtonStatus(clickedReadButton.target);
       updateReadStatus(clickedReadButton.target.parentNode.parentNode);
       updateLibraryInfo();
@@ -211,15 +224,16 @@ function handleReadButton() {
   });
 }
 
-function handleRemoveButton() {
-  document.querySelectorAll(".remove-book").forEach((e) => {
-    e.addEventListener("click", (clickedRemoveButton) => {
+function handleRemoveButton(remveButtonsArr) {
+  remveButtonsArr.forEach((removeButton) => {
+    removeButton.addEventListener("click", (clickedRemoveButton) => {
       clickedRemoveButton.target.parentNode.parentNode.remove();
       table.lastElementChild.classList.remove("border-b");
       library.splice(
         clickedRemoveButton.target.parentNode.parentNode.id - 1,
         1
       );
+
       updateLibraryInfo();
       addIdToBooks();
     });
