@@ -22,7 +22,7 @@ function displayAllBooks() {
   handleReadButton(document.querySelectorAll(".read-button"));
   handleRemoveButton(document.querySelectorAll(".remove-book"));
 
-  if (table.lastElementChild != null) {
+  if (table.lastElementChild !== null) {
     table.lastElementChild.classList.remove("border-b");
   }
 }
@@ -253,7 +253,7 @@ function handleNewBookButton() {
 
 function validateNewBook(inputFields) {
   const authorRegex = /^[A-Za-z \.]{3,30}$/gm;
-  const titleRegex = /^[A-Za-z \.]{3,50}$/gm;
+  const titleRegex = /^[A-Za-z \.]{2,200}$/gm;
 
   let invalidFields = [];
 
