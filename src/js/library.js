@@ -177,7 +177,9 @@ function handleNewBookButton() {
       hasRead: readCheckbox.checked,
     };
 
-    if (validateNewBook(bookToBeAdded)) {
+    const isValid = validateNewBook(bookToBeAdded);
+
+    if (isValid === true) {
       addBook(
         bookToBeAdded.author,
         bookToBeAdded.title,
@@ -193,14 +195,55 @@ function handleNewBookButton() {
       const readButton = document.querySelectorAll(".read-button");
       const removeButton = document.querySelectorAll(".remove-book");
 
-      console.log(readButton[readButton.length - 1]);
-
       handleReadButton([readButton[readButton.length - 1]]);
       handleRemoveButton([removeButton[removeButton.length - 1]]);
 
       toggleModal();
     } else {
-      console.log("INVALID", bookToBeAdded);
+      const authorLabel = document.querySelector(".author-label");
+      const titleLabel = document.querySelector(".title-label");
+      const pagesLabel = document.querySelector(".pages-label");
+      const authorErrorMessage = document.querySelector(
+        ".invalid-author-message"
+      );
+      const titleErrorMessage = document.querySelector(
+        ".invalid-title-message"
+      );
+      const pagesErrorMessage = document.querySelector(
+        ".invalid-pages-message"
+      );
+
+      authorInput.classList.remove("bg-red-100", "text-red-900");
+      authorLabel.classList.remove("text-red-600");
+      authorErrorMessage.classList.add("hidden");
+      titleInput.classList.remove("bg-red-100", "text-red-900");
+      titleLabel.classList.remove("text-red-600");
+      titleErrorMessage.classList.add("hidden");
+      pagesInput.classList.remove("bg-red-100", "text-red-900");
+      pagesLabel.classList.remove("text-red-600");
+      pagesErrorMessage.classList.add("hidden");
+
+      isValid.forEach((invalidField) => {
+        switch (invalidField) {
+          case "author":
+            authorInput.classList.add("bg-red-100", "text-red-900");
+            authorLabel.classList.add("text-red-600");
+            authorErrorMessage.classList.remove("hidden");
+            break;
+          case "title":
+            titleInput.classList.add("bg-red-100", "text-red-900");
+            titleLabel.classList.add("text-red-600");
+            titleErrorMessage.classList.remove("hidden");
+            break;
+          case "pages":
+            pagesInput.classList.add("bg-red-100", "text-red-900");
+            pagesLabel.classList.add("text-red-600");
+            pagesErrorMessage.classList.remove("hidden");
+            break;
+        }
+      });
+
+      console.log("INVALID", isValid);
     }
   });
 }
@@ -209,9 +252,21 @@ function validateNewBook(inputFields) {
   const authorRegex = /^[A-Za-z \.]{3,30}$/gm;
   const titleRegex = /^[A-Za-z \.]{3,50}$/gm;
 
-  return (
-    authorRegex.test(inputFields.author) && titleRegex.test(inputFields.title)
-  );
+  let invalidFields = [];
+
+  if (!authorRegex.test(inputFields.author)) {
+    invalidFields.push("author");
+  }
+
+  if (!titleRegex.test(inputFields.title)) {
+    invalidFields.push("title");
+  }
+
+  if (inputFields.pages <= 0 || inputFields.pages > 21450) {
+    invalidFields.push("pages");
+  }
+
+  return !invalidFields.length ? true : invalidFields;
 }
 
 function handleReadButton(readButtonsArr) {

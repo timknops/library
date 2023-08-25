@@ -112,7 +112,7 @@
         <div class="mb-3">
           <label
             for="author"
-            class="block mb-1 text-sm font-medium text-gray-900"
+            class="author-label block mb-1 text-sm font-medium text-gray-900"
             >Author</label
           >
           <input
@@ -123,11 +123,14 @@
             placeholder="Author"
             required
           />
+          <p class="invalid-author-message text-sm text-red-600 mt-1 hidden">
+            Invalid author name.
+          </p>
         </div>
         <div class="mb-3">
           <label
             for="title"
-            class="block mb-1 text-sm font-medium text-gray-900"
+            class="title-label block mb-1 text-sm font-medium text-gray-900"
             >Title</label
           >
           <input
@@ -138,11 +141,14 @@
             placeholder="Title"
             required
           />
+          <p class="invalid-title-message text-sm text-red-600 mt-1 hidden">
+            Invalid title name.
+          </p>
         </div>
         <div class="mb-3">
           <label
             for="pages"
-            class="block mb-1 text-sm font-medium text-gray-900"
+            class="pages-label block mb-1 text-sm font-medium text-gray-900"
             >Pages</label
           >
           <input
@@ -153,6 +159,9 @@
             placeholder="0"
             required
           />
+          <p class="invalid-pages-message text-sm text-red-600 mt-1 hidden">
+            Invalid pages.
+          </p>
         </div>
         <div class="flex items-center">
           <input
